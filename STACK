@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+typedef struct stack1 {
+    int message;
+    int time;
+    struct stack1 * Next; 
+} Stack;
+ 
+Stack * Push(Stack * head, int message, int time);
+int Pop(Stack * head);
+Stack * merge()
+
+int main(int argc, char * argv[]) {
+    int N, cnt = 1;
+    while (scanf("%d", &N), N) {
+        Stack *headA = NULL, *headB = NULL;                                          
+        printf("Case #%d:\n", cnt++);
+        int message;
+        int time = 0;
+        char operation[10] = {0};
+        char main_type;
+        for (int i = 0; i < N; ++i) {
+            scanf("%s %c", operation, &main_type);
+            if (!strcmp(operation, "push")) {
+				
+            }else
+            if (!strcmp(operation, "pop")) {
+
+            }else{
+
+            }
+        }
+    }
+    return 0;
+}
+
+Stack * Push(Stack * head, int message, int time){
+	if (head == NULL){
+		head = (Stack*)malloc(sizeof(Stack));
+		head->message = message;
+		head->time = time;
+		head->Next = NULL;
+	}
+	else{
+		Stack * temp = head;
+		head = (Stack*)malloc(sizeof(Stack));
+		head->message = message;
+		head->time = time;
+		head->Next = temp;
+	}
+	return head;
+} 
+
+int Pop(Stack ** head){
+	Stack * temp = *head;
+	int a = (*head)->message; 
+	free(temp);
+	return a;
+}
