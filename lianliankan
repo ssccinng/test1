@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define nopass -2
+
+const int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+
+int check(int martix[][1010], int x1, int y1, int x2, int y2) {
+	if (martix[x1][y1] != martix[x2][y2]){
+		return 0;
+	}
+	
+}
+
+int main(int argc, char * argv[]){
+	int N, M;
+	while (scanf("%d %d", &N, &M), N){
+		int martix[N + 2][M + 2];
+		for (int i = 0; i < N + 2; ++i){
+			martix[i][0] = martix[i][M + 1] = nopass;
+		}
+		for (int i = 0; i < M + 2; ++i){
+			martix[0][i] = martix[N + 1][i] = nopass;
+		}
+		for (int i = 1; i <= N; ++i){
+			for (int j = 1; j <= M; ++j){
+				scanf("%d", &martix[i][j]);
+			}
+		}
+		int que;
+		scanf("%d", &que);
+		int x1, y1, x2, y2;
+		while (que--){
+			scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
+			if (check(martix, x1, y1, x2, y2)){
+				printf("YES\n");
+			}
+			else{
+				printf("NO\n");
+			}
+		}
+	}
+	return 0;
+}
