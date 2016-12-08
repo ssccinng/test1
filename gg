@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define Inf 0x7fffffff
+
+typedef struct message {
+	int num;
+	int time;
+} Heap_mem;
+
+struct Heap {
+	Heap_mem * message;
+	int Nowsize;
+};
+
+typedef struct Heap MaxHeap;
+
+Heap_mem Heap_Delete(MaxHeap * HeapA);
+void merge_Heap(MaxHeap * HeapA, MaxHeap * HeapB);
+void Change(MaxHeap * HeapA);
+
+int main(int argc, char * argv[]){
+	int N, cnt = 1;
+	while (scanf("%d", &N), N){
+		MaxHeap A, B;
+		printf("Case #%d:\n", cnt++);
+		A.message = (Heap_mem*)malloc(1e5 * sizeof(Heap_mem));
+		A.message[0].num= Inf;
+		A.Nowsize = 0;
+		B.message = (Heap_mem*)malloc(1e5 * sizeof(Heap_mem));
+		B.message[0].num = Inf;
+		B.Nowsize = 0;
+		int time = 0;
+		int message;
+        char operation[10] = {0};
+        char main_type, n1;
+		for (int i = 0; i < N; ++i){
+			scanf("%s %c", operation, &main_type);
+			if (!strcmp(operation, "push")) {
+            	scanf("%d", &message);//nowsize
+            	if (main_type == 'A') {
+            		A.message[++A.Nowsize].num = message;
+            		A.message[A.Nowsize].time = time++;
+            	}
+            	else {
+            		B.message[++B.Nowsize].num = message;
+            		B.message[B.Nowsize].time = time++;
+            	}
+            	
+            } 
+			else if (!strcmp(operation, "pop")) {
+            	if (main_type == 'A') printf("%d\n", Heap_Delete(&A).num);
+            	else printf("%d\n", Heap_Delete(&B).num);
+            }else{
+            	scanf(" %c", &n1);
+            	
+            }
+		}
+	}//记得free 
+	
+	
+	return 0;
+}
+
+Heap_mem Heap_Delete(MaxHeap * HeapA) {
+	Heap_mem ret =  HeapA->message[1];//可能要返回 
+	Heap_mem Min = HeapA->message[HeapA->Nowsize];
+	--HeapA->Nowsize;
+	int parent = 1, chird;
+	for (; 2 * parent <= HeapA->Nowsize; parent = chird) {
+		chird = 2 * parent;
+		if (2 * parent < HeapA->Nowsize && HeapA->message[chird].time < HeapA->message[chird + 1].time) {
+			++chird;
+		}
+		if (Min.time >= HeapA->message[chird].time ) {
+			break;
+		}
+		else {
+			HeapA->message[parent] = HeapA->message[chird];
+		}
+	}
+	HeapA->message[parent] = Min;
+	return ret; 
+}
+
+void merge_Heap(MaxHeap * HeapA, MaxHeap * HeapB) {
+	
+}
+
+void Change(MaxHeap * HeapA) {
+	int parent, chird;
+	int root = HeapA->Nowsize / 2;
+	Heap_mem temp;
+	for (; root > 0; --root) {
+		parent = root;
+		temp = HeapA->message[root];
+		for (; 2 * parent <= HeapA->Nowsize; parent = chird) {
+			chird = 2 * parent;
+			if (chird < HeapA->Nowsize && HeapA->message[chird].time < HeapA->message[chird + 1].time) {
+				++chird;
+			}
+			if (temp.num >= HeapA->message[chird].time) { 
+				break;
+			}
+			else {
+				HeapA->message[parent] = HeapA->message[chird];
+			}
+		}
+		HeapA->message[parent] = temp;
+	}
+}
